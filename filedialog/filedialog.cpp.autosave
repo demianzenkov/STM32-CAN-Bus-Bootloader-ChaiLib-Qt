@@ -1,0 +1,29 @@
+#include "FileDialog.h"
+#include <QFileDialog>
+
+
+FileDialog::FileDialog(QWidget *parent) : QWidget(parent)
+{
+    
+}
+
+void FileDialog::slotGetFileName()
+{
+    QString filename = QFileDialog::getOpenFileName(
+                this,
+                tr("Open file"),
+                "",
+                tr("Bin Files (*.bin)")
+                );
+    
+    QFile file(filename);
+    
+    if (!file.exists()) {
+        return;
+    }
+    if (!file.open(QIODevice::ReadOnly)) {
+        return;
+    }
+    emit (signalSetFileName(filename));
+    
+}
